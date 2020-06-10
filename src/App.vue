@@ -1,17 +1,39 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="content">
+      <chat-header></chat-header>
+      <messages></messages>
+      <message-input></message-input>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { mapState } from 'vuex';
+import ChatHeader from '@/components/ChatHeader';
+import Messages from '@/components/Messages';
+import MessageInput from '@/components/MessageInput';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    ChatHeader,
+    Messages,
+    MessageInput
+  },
+  data() {
+    return {
+      name: ''
+    }
+  },
+  computed: {
+    ...mapState(['user'])
+  },
+  mounted() {
+    const name = prompt('Enter your username');
+    if (name) {
+      this.$store.dispatch('setUser', { name });
+    }
   }
 }
 </script>
@@ -21,8 +43,7 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100vh;
 }
 </style>
